@@ -1,33 +1,16 @@
 import Layout from "@/components/layout/Layout";
-import PageHeader from "@/components/sections/PageHeader";
-import Section1 from "@/components/sections/pricing/Section1";
-import Section3 from "@/components/sections/pricing/Section3";
+import PricingContent from "@/components/pages/PricingContent";
+
 export const metadata = {
     title: "Pricing Plans | Sierlab",
     description:
-        "Explore Sierlab’s transparent pricing plans for custom web applications, ecommerce development, landing pages, API integrations, SEO optimization, and cybersecurity consulting. Flexible solutions designed for startups, SMEs, and enterprises.",
-    keywords: [
-        "pricing plans",
-        "custom web applications pricing",
-        "ecommerce website cost",
-        "API integration services",
-        "SEO packages",
-        "cybersecurity consulting prices",
-        "Sierlab web development",
-    ],
+        "Transparent pricing for custom web applications, e-commerce, API integrations, SEO, and cybersecurity.",
 };
 
-export default function Home() {
+export default function PricingPage() {
     return (
-        <>
-            <Layout>
-                <PageHeader
-                    title="Pricing & Plan"
-                    current_page="Pricing & Plan"
-                />
-                <Section1 />
-                <Section3 />
-            </Layout>
-        </>
+        <Layout>
+            <PricingContent />
+        </Layout>
     );
 }

@@ -1,28 +1,18 @@
 import Layout from "@/components/layout/Layout";
-import Section1 from "@/components/sections/ecommerce-development/Section1";
-import Section2 from "@/components/sections/ecommerce-development/Section2";
-import PageHeader from "@/components/sections/PageHeader";
+import ServiceDetailContent from "@/components/pages/ServiceDetailContent";
+import { SERVICE_DETAILS } from "@/lib/site-data";
+
 export const metadata = {
-    title: "Ecommerce Development | Sierlab",
-    description:
-        "Explore our ecommerce development services designed to enhance your online business. Learn about our solutions and expertise.",
-    keywords: [
-        "ecommerce development",
-        "online store",
-        "Sierlab",
-        "business solutions",
-    ],
+    title: "E-Commerce Development | Sierlab",
+    description: SERVICE_DETAILS["/ecommerce-development"].description,
 };
-export default function Home() {
+
+export default function Page() {
     return (
-        <>
-            <Layout>
-                <PageHeader
-                    title="Ecommerce Development"
-                    current_page="Ecommerce Development"
-                />
-                <Section1 />
-            </Layout>
-        </>
+        <Layout>
+            <ServiceDetailContent
+                service={SERVICE_DETAILS["/ecommerce-development"]}
+            />
+        </Layout>
     );
 }

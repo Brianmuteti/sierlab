@@ -1,29 +1,28 @@
 import Layout from "@/components/layout/Layout";
-import Section1 from "@/components/sections/home/Section1";
-import Section2 from "@/components/sections/home/Section2";
-import Section3 from "@/components/sections/home/Section3";
-import Section4 from "@/components/sections/home/Section4";
-import Section5 from "@/components/sections/home/Section5";
-import Section6 from "@/components/sections/home/Section6";
-import Section7 from "@/components/sections/home/Section7";
-import Section8 from "@/components/sections/home/Section8";
+import Hero from "@/components/home/Hero";
+import Marquee from "@/components/home/Marquee";
+import Services from "@/components/home/Services";
+import Integrations from "@/components/home/Integrations";
+import Industries from "@/components/home/Industries";
+import Testimonials from "@/components/home/Testimonials";
+import ContactCTA from "@/components/home/ContactCTA";
+
 export const metadata = {
-    description: "Welcome to SierLab, your partner in digital transformation.",
-    keywords: "SierLab, Home, Digital Transformation, Innovation",
+    title: "Sierlab | Smart Digital Solutions for Modern Business",
+    description:
+        "Custom web applications, e-commerce, API integrations, and cybersecurity — built for Kenyan and African businesses.",
 };
+
 export default function Home() {
     return (
-        <>
-            <Layout>
-                <Section1 />
-                <Section2 />
-                <Section3 />
-                <Section4 />
-                <Section5 />
-                <Section6 />
-                <Section7 />
-                <Section8 />
-            </Layout>
-        </>
+        <Layout>
+            <Hero />
+            <Marquee />
+            <Services />
+            <Integrations />
+            <Industries />
+            <Testimonials />
+            <ContactCTA />
+        </Layout>
     );
 }

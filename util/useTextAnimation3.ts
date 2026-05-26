@@ -30,10 +30,7 @@ export default function useTextAnimation3() {
 			document.querySelectorAll(".text-anime-style-3") as NodeListOf<HTMLElement>
 		)
 
-		if (elementsRef.current.length === 0) {
-			console.warn("No elements with class 'text-anime-style-3' found.")
-			return
-		}
+		if (elementsRef.current.length === 0) return
 
 		elementsRef.current.forEach((element) => {
 			if (element.animation) {
@@ -111,10 +108,6 @@ export default function useTextAnimation3() {
 				)
 			}
 		})
-
-		if (chars.length === 0) {
-			console.warn("No characters found to animate in:", element)
-		}
 
 		return {
 			chars,

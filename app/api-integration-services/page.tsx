@@ -1,33 +1,18 @@
 import Layout from "@/components/layout/Layout";
-import Section1 from "@/components/sections/api-integration-services/Section1";
+import ServiceDetailContent from "@/components/pages/ServiceDetailContent";
+import { SERVICE_DETAILS } from "@/lib/site-data";
 
-import PageHeader from "@/components/sections/PageHeader";
 export const metadata = {
-    title: "Api Integration Services | Sierlab",
-    description:
-        "Explore our API integration services designed to streamline your business processes. Learn about our expertise and solutions.",
-    keywords: [
-        "API integration",
-        "business solutions",
-        "Sierlab",
-        "integration services",
-        "Mpesa Api",
-        "payment integration",
-        "Paypal Api",
-        "Stripe Api",
-        "web services",
-    ],
+    title: "API Integration Services | Sierlab",
+    description: SERVICE_DETAILS["/api-integration-services"].description,
 };
-export default function Home() {
+
+export default function Page() {
     return (
-        <>
-            <Layout>
-                <PageHeader
-                    title="Api Integration Services"
-                    current_page="Api Integration Services"
-                />
-                <Section1 />
-            </Layout>
-        </>
+        <Layout>
+            <ServiceDetailContent
+                service={SERVICE_DETAILS["/api-integration-services"]}
+            />
+        </Layout>
     );
 }

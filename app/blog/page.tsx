@@ -1,32 +1,26 @@
 import Layout from "@/components/layout/Layout";
-import Section1 from "@/components/sections/blog/Section1";
-import PageHeader from "@/components/sections/PageHeader";
+import BlogContent from "@/components/pages/BlogContent";
 import { getAllPosts } from "@/lib/posts";
 
 export const metadata = {
     title: "Blog | Sierlab",
-    description:
-        "Read insights, tips, and updates from Sierlab on web development, ecommerce, SEO, cybersecurity, and IT consultancy. Stay informed with the latest trends and expert advice.",
-    keywords: [
-        "Sierlab blog",
-        "web development tips",
-        "ecommerce insights",
-        "SEO strategies",
-        "cybersecurity advice",
-        "IT consultancy articles",
-        "technology trends",
-    ],
+    description: "Insights on web development, e-commerce, SEO, and cybersecurity.",
 };
 
-export default function Home() {
-    const posts = getAllPosts();
+export default function BlogPage() {
+    const posts = getAllPosts().map((p) => ({
+        slug: p.slug,
+        title: p.meta.title as string,
+        excerpt: (p.meta.description as string) || p.content.slice(0, 120),
+        date: p.meta.date as string | undefined,
+        category: Array.isArray(p.meta.categories)
+            ? (p.meta.categories[0] as string)
+            : undefined,
+    }));
 
     return (
-        <>
-            <Layout>
-                <PageHeader title="Our Inside" current_page="blogs" />
-                <Section1 posts={posts} />
-            </Layout>
-        </>
+        <Layout>
+            <BlogContent posts={posts} />
+        </Layout>
     );
 }

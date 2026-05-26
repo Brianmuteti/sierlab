@@ -15,8 +15,8 @@ import type { FC } from 'react'
 import { useEffect, useState } from "react"
 import BackToTop from '../elements/BackToTop'
 import Breadcrumb from './Breadcrumb'
-import Footer from './footer/Footer'
-import Header from "./header/Header"
+import Footer from '@/components/modern/Footer'
+import Header from '@/components/modern/Header'
 
 // Define the props interface (same as above)
 interface BootstrapComponentsProps { }
@@ -37,12 +37,6 @@ interface LayoutProps {
 
 export default function Layout({ headerStyle, footerStyle, breadcrumbTitle, children }: LayoutProps) {
 	const [scroll, setScroll] = useState<boolean>(false)
-	// Mobile Menu
-	const [isMobileMenu, setMobileMenu] = useState<boolean>(false)
-	const handleMobileMenu = (): void => {
-		setMobileMenu(!isMobileMenu)
-		!isMobileMenu ? document.body.classList.add("mobile-menu-active") : document.body.classList.remove("mobile-menu-active");
-	}
 
 	useEffect(() => {
 		AOS.init()
@@ -79,7 +73,7 @@ export default function Layout({ headerStyle, footerStyle, breadcrumbTitle, chil
 		<>
 			<div id="top" />
 			<BootstrapComponents />
-			<Header scroll={scroll} isMobileMenu={isMobileMenu} handleMobileMenu={handleMobileMenu} />
+			<Header scroll={scroll} />
 
 			<main>
 				{breadcrumbTitle && <Breadcrumb breadcrumbTitle={breadcrumbTitle} />}

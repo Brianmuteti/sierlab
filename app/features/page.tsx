@@ -1,17 +1,21 @@
 import Layout from "@/components/layout/Layout";
-import PageHeader from "@/components/sections/PageHeader";
+import PageHero from "@/components/modern/PageHero";
+import CtaBanner from "@/components/modern/CtaBanner";
 import Section1 from "@/components/sections/features/Section1";
-import Section6 from "@/components/sections/home/Section6";
-import Section8 from "@/components/sections/home/Section8";
-export default function Home() {
+
+export const metadata = {
+    title: "Features - Sierlab",
+    description: "Platform features and capabilities.",
+};
+
+export default function FeaturesPage() {
     return (
-        <>
-            <Layout>
-                <PageHeader title="Our Features" current_page="Features" />
+        <Layout>
+            <PageHero title="Our Features" description="What makes our solutions stand out." />
+            <div className="sl-legacy-sections">
                 <Section1 />
-                <Section6 />
-                <Section8 />
-            </Layout>
-        </>
+            </div>
+            <CtaBanner />
+        </Layout>
     );
 }

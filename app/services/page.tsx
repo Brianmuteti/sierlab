@@ -1,28 +1,16 @@
 import Layout from "@/components/layout/Layout";
-import Section1 from "@/components/sections/services/Section1";
-import Section2 from "@/components/sections/services/Section2";
-import Section3 from "@/components/sections/services/Section3";
-import Section4 from "@/components/sections/services/Section4";
-import Section8 from "@/components/sections/home/Section8";
+import ServicesContent from "@/components/pages/ServicesContent";
 
 export const metadata = {
-    title: "Services - SierLab",
+    title: "Services - Sierlab",
     description:
-        "Explore the services offered by SierLab to enhance your digital experience.",
-    keywords:
-        "SierLab, Services, SEO optimization, Innovation, API Integrations, Web Development, E-commerce solutions, Landing Pages",
+        "Explore services from Sierlab: web apps, e-commerce, API integrations, SEO, and cybersecurity.",
 };
 
-export default function Home() {
+export default function ServicesPage() {
     return (
-        <>
-            <Layout>
-                <Section1 />
-                <Section2 />
-                <Section3 />
-                <Section4 />
-                <Section8 />
-            </Layout>
-        </>
+        <Layout>
+            <ServicesContent />
+        </Layout>
     );
 }

@@ -111,7 +111,7 @@ body.startup .border-primary-2 {
 }
 
 .nav-tabs {
-  --bs-nav-tabs-border-width: var(--bs-border- width);
+  --bs-nav-tabs-border-width: var(--bs-border-width);
   --bs-nav-tabs-border-color: var(--bs-border-color);
   --bs-nav-tabs-border-radius: 0;
   --bs-nav-tabs-link-active-color: var(--tc-system-white);

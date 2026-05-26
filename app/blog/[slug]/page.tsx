@@ -1,6 +1,9 @@
 import Layout from "@/components/layout/Layout";
+import PageHero from "@/components/modern/PageHero";
+import CtaBanner from "@/components/modern/CtaBanner";
 import { getPostBySlug, getAllPosts } from "@/lib/posts";
 import { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { remark } from "remark";
 import html from "remark-html";
@@ -8,90 +11,67 @@ import html from "remark-html";
 export async function generateStaticParams() {
     return getAllPosts().map((post) => ({ slug: post.slug }));
 }
+
 export async function generateMetadata({
     params,
 }: {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-    const post = getPostBySlug(params.slug);
+    const { slug } = await params;
+    const post = getPostBySlug(slug);
     if (!post) return {};
 
     return {
         title: post.meta.title,
         description: post.meta.description || post.content.slice(0, 150),
-        keywords: post.meta.keywords || post.meta.categories,
-        authors: [{ name: post.meta.author }],
-        openGraph: {
-            title: post.meta.title,
-            description: post.meta.description || post.content.slice(0, 150),
-            images: [post.meta.cover],
-        },
     };
 }
 
-export default async function BlogDetails({
+export default async function BlogPostPage({
     params,
 }: {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 }) {
-    const post = getPostBySlug(params.slug);
+    const { slug } = await params;
+    const post = getPostBySlug(slug);
     if (!post) return notFound();
 
     const processedContent = await remark().use(html).process(post.content);
     const contentHtml = processedContent.toString();
 
     return (
-        <>
-            <Layout>
-                <section className="startup-blog-details-section-1 position-relative py-120 border-bottom overflow-hidden">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-8 mx-lg-auto">
-                                <div className="content">
-                                    <div className="d-flex">
-                                        {post.meta.categories.map(
-                                            (cat: string) => (
-                                                <span
-                                                    key={cat}
-                                                    className="bg-primary px-2 py-1 rounded-2 me-3 text-white"
-                                                >
-                                                    {cat}
-                                                </span>
-                                            )
-                                        )}
-                                    </div>
-                                    <h4 className="my-3 text-anime-style-3">
-                                        {post.meta.title}
-                                    </h4>
-                                    <div className="d-flex align-items-center">
-                                        <img
-                                            className="rounded-circle avatar avatar-md"
-                                            src={post.meta.avatar}
-                                            alt={post.meta.author}
-                                        />
-                                        <p className="mb-0 ms-3">
-                                            {post.meta.author}
-                                        </p>
-                                        <p className="mb-0 ms-4">
-                                            {post.meta.date}
-                                        </p>
-                                    </div>
-                                    <img
-                                        className="w-100 py-5 wow img-custom-anim-top"
-                                        src={post.meta.cover}
-                                        alt={post.meta.title}
-                                    />
-                                    <div
-                                        dangerouslySetInnerHTML={{
-                                            __html: contentHtml,
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        </div>
+        <Layout>
+            <PageHero title={post.meta.title as string} breadcrumb="Blog" />
+            <section className="sl-section">
+                <div className="sl-section__container sl-blog-article">
+                    <div className="sl-blog-article__meta">
+                        {Array.isArray(post.meta.categories) &&
+                            post.meta.categories.map((cat: string) => (
+                                <span key={cat} className="sl-hero__tag">
+                                    {cat}
+                                </span>
+                            ))}
+                        <span className="sl-blog-card__date">
+                            {post.meta.author} · {post.meta.date}
+                        </span>
                     </div>
-                </section>
-            </Layout>
-        </>
+                    {post.meta.cover && (
+                        <img
+                            className="sl-blog-article__cover"
+                            src={post.meta.cover as string}
+                            alt={post.meta.title as string}
+                        />
+                    )}
+                    <div
+                        className="sl-blog-article__body"
+                        dangerouslySetInnerHTML={{ __html: contentHtml }}
+                    />
+                    <Link href="/blog" className="sl-btn sl-btn--outline mt-4">
+                        ← Back to blog
+                    </Link>
+                </div>
+            </section>
+            <CtaBanner />
+        </Layout>
     );
 }
