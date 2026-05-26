@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -9,6 +10,7 @@ const NAV = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/services", label: "Services" },
+    { href: "/work", label: "Work" },
     { href: "/integrations", label: "Integrations" },
     { href: "/pricing", label: "Pricing" },
     { href: "/blog", label: "News" },
@@ -24,9 +26,12 @@ export default function Header({ scroll }: { scroll: boolean }) {
             <header className={`sl-header ${scroll ? "is-scrolled" : ""}`}>
                 <div className="sl-header__inner">
                     <Link href="/" className="sl-header__brand">
-                        <img
+                        <Image
                             src="/assets/imgs/pages/startup/logo.png"
                             alt="Sierlab"
+                            width={140}
+                            height={36}
+                            priority
                         />
                     </Link>
 

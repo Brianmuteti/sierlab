@@ -4,6 +4,7 @@ import CtaBanner from "@/components/modern/CtaBanner";
 import PageHero from "@/components/modern/PageHero";
 import type { ServiceDetail } from "@/lib/site-data";
 import { getRelatedServices } from "@/lib/site-data";
+import { contactUrl } from "@/lib/contact-url";
 
 export default function ServiceDetailContent({ service }: { service: ServiceDetail }) {
     const related = getRelatedServices(service.slug);
@@ -51,7 +52,7 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
                                     </p>
                                     <div className="sl-service-overview__actions">
                                         <Link
-                                            href="/contact"
+                                            href={contactUrl({ service: service.title })}
                                             className="sl-btn sl-btn--primary"
                                         >
                                             Get a free quote
@@ -167,7 +168,10 @@ export default function ServiceDetailContent({ service }: { service: ServiceDeta
                                     and timeline, usually within one business day.
                                 </p>
                                 <div className="sl-page-main__actions">
-                                    <Link href="/contact" className="sl-btn sl-btn--primary">
+                                    <Link
+                                        href={contactUrl({ service: service.title })}
+                                        className="sl-btn sl-btn--primary"
+                                    >
                                         Request a quote
                                     </Link>
                                     <a

@@ -15,8 +15,11 @@ export default function CtaBanner() {
                         goals.
                     </p>
                     <div className="d-flex flex-wrap gap-3 justify-content-center">
-                        <Link href="/contact" className="sl-btn sl-btn--primary">
-                            Let&apos;s talk
+                        <Link href="/contact#book" className="sl-btn sl-btn--primary">
+                            Book a call
+                        </Link>
+                        <Link href="/contact#message" className="sl-btn sl-btn--outline">
+                            Send a message
                         </Link>
                         <a
                             href="https://wa.me/254731824251"

@@ -2,6 +2,7 @@ import Link from "next/link";
 import PageHero from "@/components/modern/PageHero";
 import CtaBanner from "@/components/modern/CtaBanner";
 import Testimonials from "@/components/home/Testimonials";
+import { COMPANY_STATS } from "@/lib/site-data";
 
 const VALUES = [
     {
@@ -24,13 +25,6 @@ const VALUES = [
         title: "Built in Nairobi",
         text: "Local expertise with global standards — serving Kenya and clients worldwide.",
     },
-];
-
-const STATS = [
-    { value: "40+", label: "Projects" },
-    { value: "5+", label: "Years" },
-    { value: "100%", label: "Commitment" },
-    { value: "24/7", label: "Support" },
 ];
 
 export default function AboutContent() {
@@ -59,7 +53,7 @@ export default function AboutContent() {
                             </Link>
                         </div>
                         <div className="sl-about-stats">
-                            {STATS.map((s) => (
+                            {COMPANY_STATS.map((s) => (
                                 <div key={s.label} className="sl-stat">
                                     <div className="sl-stat__value">{s.value}</div>
                                     <div className="sl-stat__label">{s.label}</div>

@@ -5,15 +5,9 @@ import { useCallback, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
+import { COMPANY_STATS } from "@/lib/site-data";
 
 const AUTOPLAY_MS = 6000;
-
-const GLOBAL_STATS = [
-    { value: "40+", label: "Projects Delivered" },
-    { value: "100%", label: "Client Satisfaction" },
-    { value: "24/7", label: "Support" },
-    { value: "5+", label: "Years Active" },
-];
 
 const SLIDES = [
     {
@@ -298,7 +292,7 @@ export default function HeroSlider() {
                 </div>
 
                 <div className="sl-hero__stats sl-hero-slider__global-stats">
-                    {GLOBAL_STATS.map((stat) => (
+                    {COMPANY_STATS.map((stat) => (
                         <div key={stat.label} className="sl-stat">
                             <div className="sl-stat__value">{stat.value}</div>
                             <div className="sl-stat__label">{stat.label}</div>

@@ -476,10 +476,183 @@ export function getRelatedServices(
     return related;
 }
 
+export const COMPANY_STATS = [
+    { value: "40+", label: "Projects delivered" },
+    { value: "5+", label: "Years in business" },
+    { value: "98%", label: "Client retention" },
+    { value: "24/7", label: "Support options" },
+];
+
+export const TESTIMONIALS = [
+    {
+        initials: "SM",
+        name: "Sarah Mwangi",
+        role: "Operations Director, Nairobi retail",
+        quote:
+            "Sierlab built our inventory system from scratch. Tracking stock and sales is now effortless — exactly what we needed.",
+    },
+    {
+        initials: "JK",
+        name: "James Kariuki",
+        role: "Founder, online retail brand",
+        quote:
+            "Our store went live in weeks with M-Pesa checkout integrated. Clear communication and solid engineering throughout.",
+    },
+    {
+        initials: "GW",
+        name: "Dr. Grace Wanjiku",
+        role: "Clinic director, Westlands",
+        quote:
+            "They digitized patient scheduling and records. No more paper chaos — it's been a game changer for our clinic.",
+    },
+];
+
+export interface CaseStudy {
+    slug: string;
+    title: string;
+    client: string;
+    industry: string;
+    icon: string;
+    summary: string;
+    challenge: string;
+    solution: string;
+    results: string[];
+    services: string[];
+}
+
+export const CASE_STUDIES: CaseStudy[] = [
+    {
+        slug: "retail-inventory",
+        title: "Multi-branch inventory platform",
+        client: "Nairobi retail group",
+        industry: "Retail",
+        icon: "📦",
+        summary:
+            "Unified stock, sales, and reporting across three branches with role-based dashboards.",
+        challenge:
+            "Spreadsheets and disconnected POS exports made it impossible to see real-time stock levels.",
+        solution:
+            "Custom Next.js app with branch-level permissions, low-stock alerts, and sales analytics.",
+        results: [
+            "60% less time on manual stock counts",
+            "Single dashboard for all branches",
+            "Automated low-stock email alerts",
+        ],
+        services: ["Custom Web Applications"],
+    },
+    {
+        slug: "mpesa-ecommerce",
+        title: "M-Pesa checkout for D2C brand",
+        client: "Kenyan e-commerce startup",
+        industry: "E-Commerce",
+        icon: "🛒",
+        summary:
+            "Mobile-first storefront with STK Push, order tracking, and admin order management.",
+        challenge:
+            "Previous site couldn't accept M-Pesa reliably and lost orders during peak campaigns.",
+        solution:
+            "Next.js storefront with Daraja integration, webhook reconciliation, and WhatsApp order alerts.",
+        results: [
+            "Live in 6 weeks",
+            "95%+ successful STK Push rate",
+            "2× conversion on mobile checkout",
+        ],
+        services: ["E-Commerce Development", "API Integration Services"],
+    },
+    {
+        slug: "clinic-scheduling",
+        title: "Clinic scheduling & records",
+        client: "Private healthcare clinic",
+        industry: "Healthcare",
+        icon: "🏥",
+        summary:
+            "Patient booking, staff calendars, and digital records replacing paper workflows.",
+        challenge:
+            "Double bookings and lost paper files slowed daily operations and patient experience.",
+        solution:
+            "Secure web app with appointment slots, SMS reminders, and searchable patient history.",
+        results: [
+            "Fewer no-shows with reminders",
+            "Faster front-desk check-in",
+            "Audit-friendly digital records",
+        ],
+        services: ["Custom Web Applications"],
+    },
+];
+
+export const CAREER_JOBS = [
+    {
+        title: "Full-Stack Developer",
+        type: "Full-time · Nairobi / Hybrid",
+        description:
+            "Build React/Next.js apps and Node APIs for Kenyan clients. 2+ years experience with TypeScript preferred.",
+    },
+    {
+        title: "UI/UX Designer",
+        type: "Contract · Remote",
+        description:
+            "Design conversion-focused marketing sites and dashboards. Figma proficiency and mobile-first mindset required.",
+    },
+    {
+        title: "DevOps / Cloud Engineer",
+        type: "Part-time · Remote",
+        description:
+            "Deploy and monitor client apps on AWS/Vercel. Experience with CI/CD, Docker, and security best practices.",
+    },
+];
+
+export const PLATFORM_FEATURES = [
+    {
+        icon: "⚡",
+        title: "Performance first",
+        text: "Core Web Vitals, optimized assets, and fast hosting — your site loads quickly on mobile networks.",
+    },
+    {
+        icon: "🔐",
+        title: "Security by design",
+        text: "HTTPS, secure auth, role-based access, and sensible secret handling from day one.",
+    },
+    {
+        icon: "💚",
+        title: "M-Pesa ready",
+        text: "STK Push, callbacks, and reconciliation built for how Kenyans actually pay.",
+    },
+    {
+        icon: "📊",
+        title: "Actionable dashboards",
+        text: "Real-time reporting your team can use — not vanity charts buried in menus.",
+    },
+    {
+        icon: "🔗",
+        title: "API integrations",
+        text: "Connect CRMs, banks, SMS, and third-party tools with documented, maintainable code.",
+    },
+    {
+        icon: "🤝",
+        title: "Dedicated support",
+        text: "Clear communication, milestone demos, and post-launch support options.",
+    },
+];
+
+export function getServicesForHome() {
+    return SERVICES_NAV.map((nav) => {
+        const s = SERVICE_DETAILS[nav.href as ServiceSlug];
+        return {
+            icon: s.icon,
+            badge: s.badge,
+            title: s.title,
+            subtitle: s.subtitle,
+            desc: s.description,
+            features: s.features.flatMap((f) => f.items).slice(0, 6),
+            href: s.slug,
+        };
+    });
+}
+
 export const PRICING_PLANS = [
     {
         name: "Starter",
-        price: "From $999",
+        price: "From KES 120,000",
         period: "per project",
         description: "Ideal for small businesses and landing pages.",
         features: [
@@ -493,7 +666,7 @@ export const PRICING_PLANS = [
     },
     {
         name: "Professional",
-        price: "From $2,499",
+        price: "From KES 350,000",
         period: "per project",
         description: "Best for growing businesses and custom apps.",
         features: [
@@ -507,8 +680,8 @@ export const PRICING_PLANS = [
     },
     {
         name: "Enterprise",
-        price: "Custom",
-        period: "quote",
+        price: "Custom quote",
+        period: "tailored",
         description: "For large systems, multi-branch, or compliance needs.",
         features: [
             "Unlimited modules",
@@ -524,7 +697,7 @@ export const PRICING_PLANS = [
 export const FAQ_ITEMS = [
     {
         q: "How are your prices determined?",
-        a: "Prices depend on project complexity, features, and timeline. We provide starting guides and share a detailed quote after understanding your requirements.",
+        a: "Prices depend on project complexity, features, and timeline. Starting figures are in KES; we share a detailed quote after discovery. USD billing is available for international clients.",
     },
     {
         q: "Do you offer custom pricing packages?",

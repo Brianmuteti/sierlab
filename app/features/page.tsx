@@ -1,21 +1,17 @@
 import Layout from "@/components/layout/Layout";
-import PageHero from "@/components/modern/PageHero";
-import CtaBanner from "@/components/modern/CtaBanner";
-import Section1 from "@/components/sections/features/Section1";
+import FeaturesContent from "@/components/pages/FeaturesContent";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-    title: "Features - Sierlab",
-    description: "Platform features and capabilities.",
-};
+export const metadata = createPageMetadata({
+    title: "Platform Features",
+    description: "Performance, security, M-Pesa, dashboards, and integrations built into every Sierlab project.",
+    path: "/features",
+});
 
 export default function FeaturesPage() {
     return (
         <Layout>
-            <PageHero title="Our Features" description="What makes our solutions stand out." />
-            <div className="sl-legacy-sections">
-                <Section1 />
-            </div>
-            <CtaBanner />
+            <FeaturesContent />
         </Layout>
     );
 }

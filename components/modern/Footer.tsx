@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import { ADDRESS, CONTACT_EMAIL, SOCIAL } from "@/lib/site-config";
 
 export default function Footer() {
     return (
@@ -6,9 +8,10 @@ export default function Footer() {
             <div className="sl-footer__grid">
                 <div className="sl-footer__brand">
                     <Link href="/">
-                        <img
+                        <Image
                             src="/assets/imgs/pages/startup/logo.png"
                             alt="Sierlab"
+                            width={140}
                             height={36}
                         />
                     </Link>
@@ -17,16 +20,13 @@ export default function Footer() {
                         smart digital solutions for businesses across Kenya and
                         beyond.
                     </p>
-                    <p className="mb-0" style={{ color: "var(--sl-text-muted)", fontSize: "0.875rem" }}>
-                        Lumumba Drive, Roysambu
-                        <br />
-                        Nairobi, Kenya 🇰🇪
-                    </p>
+                    <p className="mb-0 sl-footer__address">{ADDRESS} 🇰🇪</p>
                 </div>
                 <div className="sl-footer__links">
                     <div>
                         <h6>Company</h6>
                         <Link href="/about">About</Link>
+                        <Link href="/work">Our work</Link>
                         <Link href="/services">Services</Link>
                         <Link href="/pricing">Pricing</Link>
                         <Link href="/blog">News</Link>
@@ -40,7 +40,7 @@ export default function Footer() {
                     </div>
                     <div>
                         <h6>Contact</h6>
-                        <Link href="mailto:info@sierlab.com">info@sierlab.com</Link>
+                        <Link href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</Link>
                         <Link href="tel:+254731824251">+254 731 824 251</Link>
                         <Link href="/contact">Get in touch</Link>
                         <Link href="/career">Careers</Link>
@@ -48,15 +48,20 @@ export default function Footer() {
                 </div>
             </div>
             <div className="sl-footer__bottom">
-                <p>© {new Date().getFullYear()} Sierlab. All rights reserved.</p>
+                <p>
+                    © {new Date().getFullYear()} Sierlab.{" "}
+                    <Link href="/privacy">Privacy</Link>
+                    {" · "}
+                    <Link href="/terms">Terms</Link>
+                </p>
                 <div className="sl-social">
-                    <a href="#" aria-label="Facebook">
+                    <a href={SOCIAL.facebook} aria-label="Facebook" rel="noopener noreferrer">
                         <i className="bi bi-facebook" />
                     </a>
-                    <a href="#" aria-label="X">
+                    <a href={SOCIAL.twitter} aria-label="X" rel="noopener noreferrer">
                         <i className="bi bi-twitter-x" />
                     </a>
-                    <a href="#" aria-label="LinkedIn">
+                    <a href={SOCIAL.linkedin} aria-label="LinkedIn" rel="noopener noreferrer">
                         <i className="bi bi-linkedin" />
                     </a>
                 </div>

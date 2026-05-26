@@ -1,122 +1,64 @@
-"use client";
-
-import { useState } from "react";
+import Link from "next/link";
+import { Suspense } from "react";
 import PageHero from "@/components/modern/PageHero";
+import ContactForm from "@/components/forms/ContactForm";
+import CalendlyEmbed from "@/components/contact/CalendlyEmbed";
+import { CALENDLY_URL, CONTACT_EMAIL, WHATSAPP_URL } from "@/lib/site-config";
+
+function ContactFormFallback() {
+    return <p className="sl-section__desc">Loading form…</p>;
+}
 
 export default function ContactContent() {
-    const [form, setForm] = useState({
-        name: "",
-        email: "",
-        company: "",
-        message: "",
-    });
-    const [submitting, setSubmitting] = useState(false);
-    const [success, setSuccess] = useState<string | null>(null);
-    const [errors, setErrors] = useState<Record<string, string>>({});
-
-    const validate = () => {
-        const next: Record<string, string> = {};
-        if (!form.name.trim()) next.name = "Name is required.";
-        if (!form.email.trim()) next.email = "Email is required.";
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-            next.email = "Invalid email.";
-        if (!form.message.trim()) next.message = "Message is required.";
-        return next;
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        const next = validate();
-        if (Object.keys(next).length) {
-            setErrors(next);
-            return;
-        }
-        setSubmitting(true);
-        setSuccess(null);
-        try {
-            setSuccess("Thank you! We'll get back to you within 24 hours.");
-            setForm({ name: "", email: "", company: "", message: "" });
-            setErrors({});
-        } finally {
-            setSubmitting(false);
-        }
-    };
-
     return (
         <>
             <PageHero
                 title="Contact Us"
-                description="Get in touch — we'll respond within 24 hours."
+                description="Book a call, send a message, or reach us on WhatsApp — we respond within 24 hours."
             />
-            <section className="sl-section">
+
+            <section className="sl-section sl-section--alt" id="book">
                 <div className="sl-section__container">
+                    <p className="sl-section__eyebrow">Schedule</p>
+                    <h2 className="sl-section__title">Book a discovery call</h2>
+                    <p className="sl-section__desc">
+                        Pick a time that works for you. We&apos;ll discuss your goals,
+                        timeline, and how Sierlab can help — no obligation.
+                    </p>
+                    <CalendlyEmbed />
+                    {!CALENDLY_URL && (
+                        <div className="d-flex flex-wrap gap-3 mt-3">
+                            <a
+                                href={WHATSAPP_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="sl-btn sl-btn--whatsapp"
+                            >
+                                Chat on WhatsApp
+                            </a>
+                            <Link href={`mailto:${CONTACT_EMAIL}`} className="sl-btn sl-btn--outline">
+                                Email us
+                            </Link>
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            <section className="sl-section" id="message">
+                <div className="sl-section__container">
+                    <p className="sl-section__eyebrow">Message</p>
+                    <h2 className="sl-section__title">Send us a note</h2>
                     <div className="sl-cta">
                         <div className="sl-cta__grid">
                             <div>
-                                <h3 className="sl-cta__form-title">Send a message</h3>
-                                {success && (
-                                    <p className="sl-form-success">{success}</p>
-                                )}
-                                <form className="sl-form" onSubmit={handleSubmit}>
-                                    <label htmlFor="c-name">Full name *</label>
-                                    <input
-                                        id="c-name"
-                                        name="name"
-                                        value={form.name}
-                                        onChange={(e) =>
-                                            setForm({ ...form, name: e.target.value })
-                                        }
-                                    />
-                                    {errors.name && (
-                                        <span className="sl-form-error">{errors.name}</span>
-                                    )}
-                                    <label htmlFor="c-email">Email *</label>
-                                    <input
-                                        id="c-email"
-                                        type="email"
-                                        name="email"
-                                        value={form.email}
-                                        onChange={(e) =>
-                                            setForm({ ...form, email: e.target.value })
-                                        }
-                                    />
-                                    {errors.email && (
-                                        <span className="sl-form-error">{errors.email}</span>
-                                    )}
-                                    <label htmlFor="c-company">Company</label>
-                                    <input
-                                        id="c-company"
-                                        name="company"
-                                        value={form.company}
-                                        onChange={(e) =>
-                                            setForm({ ...form, company: e.target.value })
-                                        }
-                                    />
-                                    <label htmlFor="c-message">Message *</label>
-                                    <textarea
-                                        id="c-message"
-                                        name="message"
-                                        rows={5}
-                                        value={form.message}
-                                        onChange={(e) =>
-                                            setForm({ ...form, message: e.target.value })
-                                        }
-                                    />
-                                    {errors.message && (
-                                        <span className="sl-form-error">{errors.message}</span>
-                                    )}
-                                    <button
-                                        type="submit"
-                                        className="sl-btn sl-btn--primary"
-                                        disabled={submitting}
-                                    >
-                                        {submitting ? "Sending…" : "Send message"}
-                                    </button>
-                                </form>
+                                <h3 className="sl-cta__form-title">Contact form</h3>
+                                <Suspense fallback={<ContactFormFallback />}>
+                                    <ContactForm source="contact-page" />
+                                </Suspense>
                             </div>
                             <div className="sl-contact-info">
                                 <a
-                                    href="https://wa.me/254731824251"
+                                    href={WHATSAPP_URL}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="sl-contact-item"
@@ -127,11 +69,14 @@ export default function ContactContent() {
                                         <span>+254 731 824 251</span>
                                     </div>
                                 </a>
-                                <a href="mailto:info@sierlab.com" className="sl-contact-item">
+                                <a
+                                    href={`mailto:${CONTACT_EMAIL}`}
+                                    className="sl-contact-item"
+                                >
                                     <span className="sl-contact-item__icon">✉️</span>
                                     <div>
                                         <strong>Email</strong>
-                                        <span>info@sierlab.com</span>
+                                        <span>{CONTACT_EMAIL}</span>
                                     </div>
                                 </a>
                                 <div className="sl-contact-item">
@@ -147,7 +92,7 @@ export default function ContactContent() {
                                     <span className="sl-contact-item__icon">🕐</span>
                                     <div>
                                         <strong>Hours</strong>
-                                        <span>Mon – Fri, 8AM – 6PM</span>
+                                        <span>Mon – Fri, 8AM – 6PM EAT</span>
                                     </div>
                                 </div>
                             </div>

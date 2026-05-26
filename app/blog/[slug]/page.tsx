@@ -1,9 +1,18 @@
 import Layout from "@/components/layout/Layout";
-import PageHero from "@/components/modern/PageHero";
-import CtaBanner from "@/components/modern/CtaBanner";
+import BlogPostContent from "@/components/pages/BlogPostContent";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+    addHeadingIds,
+    extractHeadings,
+    getAdjacentPosts,
+    getRelatedPosts,
+    postUrl,
+    readingTimeMinutes,
+} from "@/lib/blog-utils";
 import { getPostBySlug, getAllPosts } from "@/lib/posts";
-import { Metadata } from "next";
-import Link from "next/link";
+import { createPageMetadata } from "@/lib/seo";
+import { SITE_NAME, SITE_URL } from "@/lib/site-config";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { remark } from "remark";
 import html from "remark-html";
@@ -21,10 +30,20 @@ export async function generateMetadata({
     const post = getPostBySlug(slug);
     if (!post) return {};
 
-    return {
-        title: post.meta.title,
-        description: post.meta.description || post.content.slice(0, 150),
-    };
+    const cover = post.meta.cover as string | undefined;
+    const image = cover
+        ? cover.startsWith("http")
+            ? cover
+            : `${SITE_URL}${cover}`
+        : undefined;
+
+    return createPageMetadata({
+        title: post.meta.title as string,
+        description:
+            (post.meta.description as string) || post.content.slice(0, 160),
+        path: `/blog/${slug}`,
+        image,
+    });
 }
 
 export default async function BlogPostPage({
@@ -37,41 +56,78 @@ export default async function BlogPostPage({
     if (!post) return notFound();
 
     const processedContent = await remark().use(html).process(post.content);
-    const contentHtml = processedContent.toString();
+    const contentHtml = addHeadingIds(processedContent.toString());
+    const headings = extractHeadings(post.content);
+    const readMinutes = readingTimeMinutes(post.content);
+    const related = getRelatedPosts(slug).map((p) => ({
+        slug: p.slug,
+        title: p.meta.title as string,
+        description: p.meta.description as string | undefined,
+        date: p.meta.date as string | undefined,
+        category: Array.isArray(p.meta.categories)
+            ? (p.meta.categories[0] as string)
+            : undefined,
+    }));
+    const { prev, next } = getAdjacentPosts(slug);
+
+    const articleJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: post.meta.title,
+        description: post.meta.description,
+        datePublished: post.meta.date,
+        author: {
+            "@type": "Person",
+            name: post.meta.author ?? SITE_NAME,
+        },
+        publisher: {
+            "@type": "Organization",
+            name: SITE_NAME,
+            url: SITE_URL,
+        },
+        image: post.meta.cover
+            ? `${SITE_URL}${post.meta.cover}`
+            : undefined,
+        mainEntityOfPage: postUrl(slug),
+    };
 
     return (
         <Layout>
-            <PageHero title={post.meta.title as string} breadcrumb="Blog" />
-            <section className="sl-section">
-                <div className="sl-section__container sl-blog-article">
-                    <div className="sl-blog-article__meta">
-                        {Array.isArray(post.meta.categories) &&
-                            post.meta.categories.map((cat: string) => (
-                                <span key={cat} className="sl-hero__tag">
-                                    {cat}
-                                </span>
-                            ))}
-                        <span className="sl-blog-card__date">
-                            {post.meta.author} · {post.meta.date}
-                        </span>
-                    </div>
-                    {post.meta.cover && (
-                        <img
-                            className="sl-blog-article__cover"
-                            src={post.meta.cover as string}
-                            alt={post.meta.title as string}
-                        />
-                    )}
-                    <div
-                        className="sl-blog-article__body"
-                        dangerouslySetInnerHTML={{ __html: contentHtml }}
-                    />
-                    <Link href="/blog" className="sl-btn sl-btn--outline mt-4">
-                        ← Back to blog
-                    </Link>
-                </div>
-            </section>
-            <CtaBanner />
+            <JsonLd data={articleJsonLd} />
+            <BlogPostContent
+                slug={slug}
+                meta={{
+                    title: post.meta.title as string,
+                    description: post.meta.description as string | undefined,
+                    date: post.meta.date as string | undefined,
+                    author: post.meta.author as string | undefined,
+                    avatar: post.meta.avatar as string | undefined,
+                    categories: Array.isArray(post.meta.categories)
+                        ? (post.meta.categories as string[])
+                        : undefined,
+                    cover: post.meta.cover as string | undefined,
+                }}
+                contentHtml={contentHtml}
+                headings={headings}
+                readMinutes={readMinutes}
+                related={related}
+                prev={
+                    prev
+                        ? {
+                              slug: prev.slug,
+                              title: prev.meta.title as string,
+                          }
+                        : null
+                }
+                next={
+                    next
+                        ? {
+                              slug: next.slug,
+                              title: next.meta.title as string,
+                          }
+                        : null
+                }
+            />
         </Layout>
     );
 }

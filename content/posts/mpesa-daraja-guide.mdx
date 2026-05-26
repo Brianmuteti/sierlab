@@ -1,0 +1,38 @@
+---
+title: "M-Pesa Daraja Integration: A Practical Guide for Kenyan Businesses"
+link: "mpesa-daraja-guide"
+date: "2026-03-15"
+author: "Sierlab Team"
+avatar: "/assets/imgs/pages/startup/page-blog/brian.png"
+categories: ["Payments", "Integrations"]
+cover: "/assets/imgs/pages/startup/page-blog-details/blog-img.jpg"
+description: "How to integrate M-Pesa STK Push, handle callbacks, and reconcile payments in your web app or store."
+keywords:
+    - M-Pesa Daraja
+    - STK Push
+    - Kenya payments
+    - API integration
+---
+
+# M-Pesa Daraja Integration: A Practical Guide
+
+Accepting M-Pesa online is essential for Kenyan businesses. The Daraja API powers STK Push, paybill, and B2C flows — but production integrations need careful handling of callbacks, idempotency, and reconciliation.
+
+## STK Push flow
+
+1. Your server requests payment from Safaricom with amount and phone number.
+2. The customer approves on their handset.
+3. Safaricom sends a callback to your registered URL with the result.
+4. You update order status only after verifying the callback signature and amount.
+
+## Common pitfalls
+
+- **Duplicate callbacks** — Safaricom may retry; use idempotent order IDs.
+- **Missing reconciliation** — Match Daraja reports with your database nightly.
+- **Sandbox vs production** — Test credentials and URLs differ; plan a clear go-live checklist.
+
+## How Sierlab helps
+
+We implement Daraja for e-commerce, SaaS billing, and custom apps — including admin dashboards for finance teams to track payments in real time.
+
+Ready to add M-Pesa? [Contact us](/contact?service=M-Pesa%20Integration) for a scoped quote.

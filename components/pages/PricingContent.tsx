@@ -5,6 +5,7 @@ import { useState } from "react";
 import PageHero from "@/components/modern/PageHero";
 import CtaBanner from "@/components/modern/CtaBanner";
 import { FAQ_ITEMS, PRICING_PLANS } from "@/lib/site-data";
+import { contactUrl } from "@/lib/contact-url";
 
 export default function PricingContent() {
     const [openFaq, setOpenFaq] = useState(0);
@@ -50,7 +51,10 @@ export default function PricingContent() {
                                     ))}
                                 </ul>
                                 <Link
-                                    href="/contact"
+                                    href={contactUrl({
+                                        service: plan.name,
+                                        message: `I'm interested in the ${plan.name} plan.`,
+                                    })}
                                     className={
                                         plan.highlighted
                                             ? "sl-btn sl-btn--primary w-100 justify-content-center"
