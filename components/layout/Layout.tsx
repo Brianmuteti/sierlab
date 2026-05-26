@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import BackToTop from "../elements/BackToTop";
 import Footer from "@/components/modern/Footer";
 import Header from "@/components/modern/Header";
@@ -22,6 +22,25 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
     const [scroll, setScroll] = useState(false);
+    const mainRef = useRef<HTMLElement>(null);
+
+    const skipToMain = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        const main = mainRef.current;
+        if (!main) return;
+
+        const navOffset =
+            parseInt(
+                getComputedStyle(document.documentElement).getPropertyValue(
+                    "--sl-nav-h"
+                ),
+                10
+            ) || 72;
+
+        const top = main.getBoundingClientRect().top + window.scrollY - navOffset;
+        window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+        main.focus({ preventScroll: true });
+    }, []);
 
     useEffect(() => {
         const handleScroll = (): void => {
@@ -34,13 +53,15 @@ export default function Layout({ children }: LayoutProps) {
 
     return (
         <>
-            <a href="#main-content" className="sl-skip-link">
+            <a href="#main-content" className="sl-skip-link" onClick={skipToMain}>
                 Skip to main content
             </a>
             <div id="top" />
             <BootstrapComponents />
             <Header scroll={scroll} />
-            <main id="main-content">{children}</main>
+            <main id="main-content" ref={mainRef} tabIndex={-1}>
+                {children}
+            </main>
             <Footer />
             <WhatsAppFloat />
             <BackToTop />

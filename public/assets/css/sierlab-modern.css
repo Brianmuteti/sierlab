@@ -2771,6 +2771,19 @@ body.sierlab-modern .startup-section-header {
   top: 1rem;
 }
 
+#main-content {
+  scroll-margin-top: calc(var(--sl-nav-h) + 0.5rem);
+}
+
+#main-content:focus {
+  outline: none;
+}
+
+#main-content:focus-visible {
+  outline: 2px solid var(--sl-accent);
+  outline-offset: 4px;
+}
+
 /* Testimonial avatars */
 .sl-testimonial__avatar {
   width: 2.5rem;
